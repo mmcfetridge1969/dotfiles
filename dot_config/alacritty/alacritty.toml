@@ -1,0 +1,91 @@
+
+[env]
+# TERM = "alacritty"
+TERM = "xterm-256color"
+
+[window]
+decorations     = "full"		# Window decorations.(Full - Borders and title bar) or (None - Neither borders nor title bar.)
+dynamic_padding = false			# Spread additional padding evenly around the terminal content.
+dynamic_title   = false			# Allow terminal applications to change Alacritty's window title.
+opacity         = 0.9			# 0.0 is Complete Transparent .... 1.0 is No Transparencystartup_mode    = "Windowed"		# Startup mode (Windowed, Maximized, Fullscreen)
+title           = "Miker's Terminal"		# Window title.
+blur		= false			# Request compositor to blur content behind transparent windows.
+
+[window.dimensions]
+columns = 140  # Set your desired number of columns
+lines = 50    # Set your desired number of lines
+
+[window.padding]
+x = 0
+y = 0
+
+[scrolling]
+history = 500				# Maximum number of lines in the scrollback buffer
+
+[font]
+builtin_box_drawing = false
+size                = 10
+
+[bell]
+animation = "EaseOutExpo"
+color     = "#C0C5CE"
+command   = "None"
+duration  = 0
+
+[selection]
+save_to_clipboard     = false
+semantic_escape_chars = ",│`|:\"' ()[]{}<>\t"
+
+[cursor]
+unfocused_hollow = true
+vi_mode_style    = "None"
+
+[[keyboard.bindings]]
+action = "Paste"
+key    = "V"
+mods   = "Control"
+
+[[keyboard.bindings]]
+action = "Copy"
+key    = "C"
+mods   = "Control"
+
+[[keyboard.bindings]]
+action = "ScrollPageUp"
+key    = "PageUp"
+mods   = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollPageDown"
+key    = "PageDown"
+mods   = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollToTop"
+key    = "Home"
+mods   = "Shift"
+
+[[keyboard.bindings]]
+action = "ScrollToBottom"
+key    = "End"
+mods   = "Shift"
+
+[mouse]
+hide_when_typing = true
+
+[debug]
+highlight_damage   = false
+log_level          = "Warn"
+persistent_logging = false
+print_events       = false
+render_timer       = false
+
+[general]
+# alacritty.toml
+
+live_config_reload = true			# Live config reload (changes require restart)
+
+import = [
+    "~/.config/alacritty/themes/falcon.toml"
+]
+
