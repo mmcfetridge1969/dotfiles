@@ -23,7 +23,6 @@
         name:
           - git
           - htop
-          - vim
           - firefox
           - ripgrep
           - zsh
@@ -51,6 +50,7 @@
           - qbittorrent
           - filezilla
           - flatpak
+          - zoxide
         state: present
 
     - name: Change shell to zsh
@@ -72,37 +72,6 @@
       ansible.builtin.apt:
         name: brave-browser
         state: present
-
-    - name: Add Docker repository key
-      ansible.builtin.apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
-
-    - name: Add Docker repository
-      ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
-        state: present
-
-    - name: Install Docker
-      ansible.builtin.apt:
-        name:
-          - docker-ce
-          - docker-ce-cli
-          - containerd.io
-          - docker-buildx-plugin
-          - docker-compose-plugin
-        state: present
-
-    - name: Add Docker group
-      ansible.builtin.group:
-        name: docker
-        state: present
-
-    - name: Add user to docker group
-      ansible.builtin.user:
-        name: "{{ remote_regular_user }}"
-        groups: docker
-        append: true
 
     - name: Add HashiCorp repository key
       ansible.builtin.apt_key:

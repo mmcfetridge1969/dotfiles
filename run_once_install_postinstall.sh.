@@ -102,6 +102,11 @@ fi
 echo "Installing FZF..."
 sudo apt install fzf -y
 
+# Install fastfetch
+sudo add-apt-repository ppa:zhangsongcui3371/fastfetch
+sudo apt update
+sudo apt install fastfetch
+
 # Final system cleanup
 echo "Performing system cleanup..."
 sudo apt update
