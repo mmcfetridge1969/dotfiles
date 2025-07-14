@@ -73,21 +73,6 @@
         name: brave-browser
         state: present
 
-    - name: Add Microsoft repository key
-      ansible.builtin.apt_key:
-        url: https://packages.microsoft.com/keys/microsoft.asc
-        state: present
-
-    - name: Add Visual Studio Code repository
-      ansible.builtin.apt_repository:
-        repo: "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main"
-        state: present
-
-    - name: Install VS Code
-      ansible.builtin.apt:
-        name: code
-        state: present
-
     - name: Add Docker repository key
       ansible.builtin.apt_key:
         url: https://download.docker.com/linux/ubuntu/gpg
