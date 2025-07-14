@@ -1,4 +1,5 @@
 #!/bin/bash
+sudo apt install git zsh -y
 
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
 	echo "Getting ohmyz.sh"

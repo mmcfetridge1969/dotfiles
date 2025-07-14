@@ -1,4 +1,3 @@
--
 #!/bin/sh
 
 # Install Airvpn Client (eddie)
@@ -62,15 +61,6 @@ eval "$(zoxide init bash)"
 sudo apt install fzf -y
 # git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 # ~/.fzf/install
-
-# Install Brave Browser
-curl -fsS https://dl.brave.com/install.sh | sh
-
-# Install FileZilla
-sudo apt install filezilla -y
-
-# Install Qbittorrent
-sudo apt install qbittorrent -y
 
 # APT Clean up
 sudo apt update
