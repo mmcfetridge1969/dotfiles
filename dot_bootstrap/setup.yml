@@ -51,6 +51,8 @@
           - filezilla
           - flatpak
           - zoxide
+          - wireguard
+          - wireguard-tools
         state: present
 
     - name: Change shell to zsh
