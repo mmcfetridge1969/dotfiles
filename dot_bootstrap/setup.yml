@@ -114,27 +114,6 @@
         repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main"
         state: present
 
-
-    - name: Check if the targeted version of flyctl is installed
-      ansible.builtin.command: flyctl version
-      register: installed_flyctl_version
-      ignore_errors: true
-      changed_when: false
-
-    - name: Download flyctl tar.gz
-      ansible.builtin.get_url:
-        url: "https://github.com/superfly/flyctl/releases/download/v{{ flyctl_version }}/flyctl_{{ flyctl_version }}_Linux_x86_64.tar.gz"
-        dest: "/tmp/flyctl_{{ flyctl_version }}_Linux_x86_64.tar.gz"
-        mode: "0644"
-      when: flyctl_version not in installed_flyctl_version.stdout
-
-    - name: Extract flyctl to /usr/local/bin
-      ansible.builtin.unarchive:
-        src: "/tmp/flyctl_{{ flyctl_version }}_Linux_x86_64.tar.gz"
-        dest: "/usr/local/bin"
-        remote_src: true
-      when: flyctl_version not in installed_flyctl_version.stdout
-
     - name: Install Flatpak packages
       community.general.flatpak:
         name:
