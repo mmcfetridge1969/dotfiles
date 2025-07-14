@@ -107,6 +107,10 @@ sudo add-apt-repository ppa:zhangsongcui3371/fastfetch
 sudo apt update
 sudo apt install fastfetch
 
+#Install Alacritty
+sudo apt install snapd
+sudo snap install alacritty --classic
+
 # Final system cleanup
 echo "Performing system cleanup..."
 sudo apt update
