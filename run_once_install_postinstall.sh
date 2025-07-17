@@ -70,12 +70,12 @@ sudo apt update && sudo apt install codium -y
 
 echo "###############################################"
 echo "###############################################"
-echo "Installing Flatpak and Trilium..."
+echo "Installing Flatpak and Applications..."
 echo "###############################################"
 echo "###############################################"
 sudo apt install flatpak -y
 flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-sudo flatpak install flathub com.github.zadam.trilium -y
+
 
 echo "###############################################"
 echo "###############################################"
