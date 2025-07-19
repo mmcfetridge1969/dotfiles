@@ -172,10 +172,6 @@
         #  from the terraform -install-autocomplete command during automation.
         #  It's crucial to explicitly manage ~/.zshrc content within Ansible tasks.
         stdin: 'source ~/.zshrc'
-      environment:
-        HOME: "/home/{{ ansible_user }}"
-        USER: "{{ ansible_user }}"
-      become_user: "{{ ansible_user }}" # Run as the target user
 
     - name: Verify Terraform installation
       ansible.builtin.command: terraform -version
@@ -207,48 +203,43 @@
       args:
         creates: /usr/local/bin/flyctl  # Prevents rerunning if flyctl is already installed
 
-    - name: Set zsh as default shell for the current user
-      ansible.builtin.user:
-        name: "{{ ansible_user_id }}"
-        shell: /bin/zsh
-
     - name: Add flyctl completion to .zshrc
       ansible.builtin.lineinfile:
-        path: "/home/{{ ansible_user_id }}/.zshrc"
+        path: "~/.zshrc"
         insertafter: EOF
         line: |
           # Flyctl completions
           autoload -U compinit; compinit
           flyctl completion zsh > "${fpath[1]}/_flyctl"
           compdef _flyctl fly  # Alias flyctl to fly for completions
-      become_user: "{{ ansible_user_id }}" # Run this task as the target user
+
 
 # Install PowerLine10k and Oh-My-Zsh
 
     - name: Install Oh My Zsh
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
       args:
-        creates: "{{ ansible_user_dir }}/.oh-my-zsh"
+        creates: "~/.oh-my-zsh"
 
     - name: Download Powerlevel10k theme
       git:
         repo: 'https://github.com/romkatv/powerlevel10k.git'
-        dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/themes/powerlevel10k"
+        dest: "~/.oh-my-zsh/custom/themes/powerlevel10k"
         depth: 1
       args:
-        creates: "{{ ansible_user_dir }}/.oh-my-zsh/custom/themes/powerlevel10k"
+        creates: "~/.oh-my-zsh/custom/themes/powerlevel10k"
 
     - name: Install Powerline fonts (MesloLGS NF)
       block:
         - name: Create .fonts directory if it doesn't exist
           file:
-            path: "{{ ansible_user_dir }}/.fonts"
+            path: "~/.fonts"
             state: directory
 
         - name: Download MesloLGS NF fonts
           get_url:
             url: "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20{{ item }}.ttf"
-            dest: "{{ ansible_user_dir }}/.fonts/MesloLGS%20NF%20{{ item }}.ttf"
+            dest: "~/.fonts/MesloLGS%20NF%20{{ item }}.ttf"
           loop:
             - Regular
             - Bold
@@ -262,7 +253,7 @@
 
     - name: Set Powerlevel10k as the Oh My Zsh theme
       lineinfile:
-        path: "{{ ansible_user_dir }}/.zshrc"
+        path: "~/.zshrc"
         regexp: '^ZSH_THEME=".*"$'
         line: 'ZSH_THEME="powerlevel10k/powerlevel10k"'
         backup: yes
@@ -270,22 +261,22 @@
     - name: Add zsh-autosuggestions plugin
       git:
         repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
-        dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        dest: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
         depth: 1
       args:
-        creates: "{{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        creates: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 
     - name: Add zsh-syntax-highlighting plugin
       git:
         repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
-        dest: "{{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        dest: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
         depth: 1
       args:
-        creates: "{{ ansible_user_dir }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        creates: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 
     - name: Enable zsh-autosuggestions and zsh-syntax-highlighting plugins
       lineinfile:
-        path: "{{ ansible_user_dir }}/.zshrc"
+        path: "~/.zshrc"
         regexp: '^plugins=\((.*)\)$'
         line: 'plugins=(git zsh-autosuggestions zsh-syntax-highlighting)' # You can customize the plugins list
         backup: yes
