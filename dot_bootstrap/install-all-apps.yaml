@@ -104,23 +104,20 @@
 
     - name: Add Starship init to .zshrc
       lineinfile:
-        path: /home/{{ ansible_user }}/.zshrc
+        path: ~/.zshrc
         line: 'eval "$(starship init zsh)"'
         insertafter: EOF
         create: yes
       become: false
-      vars:
-        ansible_user_id: "{{ ansible_user }}"
 
     - name: Ensure Starship is in PATH
       lineinfile:
-        path: /home/{{ ansible_user }}/.zshrc
+        path: ~/.zshrc
         line: 'export PATH="$HOME/.local/bin:$PATH"'
         insert_after: '^eval "\$\(starship init zsh\)"'
         create: yes
       become: false
-      vars:
-        ansible_user_id: "{{ ansible_user }}"
+
 
 # Install Terraform
     - name: Add HashiCorp GPG key
@@ -155,14 +152,6 @@
       ansible.builtin.apt:
         name: zsh
         state: present
-
-    - name: Ensure ~/.zshrc exists
-      ansible.builtin.file:
-        path: "~/.zshrc"
-        state: touch
-        owner: "{{ ansible_user }}"
-        group: "{{ ansible_user }}"
-        mode: '0644'
 
     - name: Install Terraform autocomplete for Zsh
       ansible.builtin.shell: "terraform -install-autocomplete"
