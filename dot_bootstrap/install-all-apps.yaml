@@ -29,7 +29,6 @@
         - vlc
         - filezilla
         - inotify-tools
-          - flyctl
         - eza
         - zoxide
         - fzf
