@@ -63,7 +63,7 @@
         flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
       when: flatpak_install_result.changed or not flatpak_install_result.failed # Add Flathub only if Flatpak was installed or not failed
 
-    - name: Install Flatpak applications (GIMP and Obsidian)
+    - name: Install Flatpak applications
       community.general.flatpak:
         name: "{{ item }}"  # Use the item from the loop as the Flatpak application name
         state: present
@@ -88,10 +88,7 @@
       until: result.rc == 0
       tags: flatpak # Tagging for potential skipping
 
-    - debug:
-        msg: "Flatpak installation failed: {{ result.stderr }}"
-      when: result.rc != 0
-
+# Installing Zsh and Oh My Zsh
     - name: Add aliases to .zshrc file
       lineinfile:
         path: ~/.zshrc
