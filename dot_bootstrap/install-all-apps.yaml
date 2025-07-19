@@ -44,7 +44,11 @@
       apt:
         name: flatpak
         state: present
-
+    - name: Update and upgrade apt packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+        
     - name: Install Flatpak packages
       command: "flatpak install --user {{ item }}"
       loop:
