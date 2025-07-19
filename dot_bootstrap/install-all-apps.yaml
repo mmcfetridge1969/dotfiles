@@ -1,0 +1,129 @@
+---
+- name: Install applications on Ubuntu
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update and upgrade apt packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+# Install APT Applications
+    - name: Install Apt packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - curl
+        - wget
+        - git
+        - vim
+        - zsh
+        - build-essential
+        - autoconf
+        - make
+        - libssl-dev
+        - ca-certificates
+        - htop
+        - firefox
+        - blender
+        - vlc
+        - filezilla
+        - inotify-tools
+        - qBittorrent
+        - terraform
+        - flyctl
+        - eza
+        - Starship
+        - Powerline10k
+        - zoxide
+        - fzf
+        - jetbrains-mono-font
+        - docker-compose
+
+# Installing Flatpak and Applications
+    - name: Add Flatpak repository
+      apt_repository:
+        repo: 'ppa:flatpak/stable'
+        state: present
+
+    - name: Install Flatpak
+      apt:
+        name: flatpak
+        state: present
+
+    - name: Install Flatpak packages
+      command: "flatpak install --user {{ item }}"
+      loop:
+        - com.obsproject.Studio
+        - org.tenacityaudio.Tenacity
+        - md.obsidian.Obsidian
+        - org.gimp.GIMP
+        - com.github.zadam.trilium
+        - com.spotify.Client
+        - io.github.shiftey.Desktop
+        - com.brave.Browser
+        - com.visualstudio.code
+      register: result  # Register the result of the command
+      failed_when: result.rc != 0 # Fail if return code is not 0
+      retries: 3  # Add retries in case of transient network issues
+      delay: 5    # Wait a few seconds between retries
+      until: result.rc == 0
+      tags: flatpak # Tagging for potential skipping
+
+    - debug:
+        msg: "Flatpak installation failed: {{ result.stderr }}"
+      when: result.rc != 0
+
+    - name: Add aliases to .zshrc file
+      lineinfile:
+        path: ~/.zshrc
+        regexp: '^export PATH.*'  # Prevent duplicates if already present
+        line: 'export PATH="$HOME/.local/bin:$PATH"'
+      notify: Reload Zsh
+
+    - name: Add source command to .zshrc file
+      lineinfile:
+        path: ~/.zshrc
+        regexp: '^source \.zshrc$'  # Prevent duplicates if already present
+        line: 'source ~/.zshrc'
+      notify: Reload Zsh
+
+    handlers:
+    - name: Reload Zsh
+      command: source ~/.zshrc
+      become_user: $USER # Ensure it runs as the current user
+
+# Installing Docker and Docker Compose
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker repository to APT sources
+      apt_repository:
+        repo: >
+          deb [arch={{ ansible_architecture }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg]
+          https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+        state: present
+
+    - name: Install Docker packages
+      apt:
+        name: "{{ item }}"
+        state: present
+      loop:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+
+    - name: Debug Architecture
+      debug:
+        msg: "Architecture: {{ ansible_architecture }}"
+
+
+# To run - run the following command. ansible-playbook -i inventory install_apps.yml
+
+
+
+
+
