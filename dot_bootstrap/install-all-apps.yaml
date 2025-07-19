@@ -48,9 +48,28 @@
       apt:
         update_cache: yes
         upgrade: dist
-        
-    - name: Install Flatpak packages
-      command: "flatpak install --user {{ item }}"
+
+    - name: Ensure Flatpak is installed
+      ansible.builtin.apt:
+        name: flatpak
+        state: present
+      register: flatpak_install_result
+      ignore_errors: true  # Continue even if Flatpak is already installed
+
+    - name: Add Flathub remote
+      community.general.flatpak_remote:
+        name: flathub
+        state: present
+        flatpakrepo_url: https://flathub.org/repo/flathub.flatpakrepo
+      when: flatpak_install_result.changed or not flatpak_install_result.failed # Add Flathub only if Flatpak was installed or not failed
+
+    - name: Install Flatpak applications (GIMP and Obsidian)
+      community.general.flatpak:
+        name: "{{ item }}"  # Use the item from the loop as the Flatpak application name
+        state: present
+        remote: flathub  # Specify the Flathub remote for installation
+#    - name: Install Flatpak packages
+#      command: "flatpak install {{ item }}" -y
       loop:
         - com.obsproject.Studio
         - org.tenacityaudio.Tenacity
