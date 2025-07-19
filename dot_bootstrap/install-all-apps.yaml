@@ -88,26 +88,6 @@
       until: result.rc == 0
       tags: flatpak # Tagging for potential skipping
 
-# Installing Zsh and Oh My Zsh
-    - name: Add aliases to .zshrc file
-      lineinfile:
-        path: ~/.zshrc
-        regexp: '^export PATH.*'  # Prevent duplicates if already present
-        line: 'export PATH="$HOME/.local/bin:$PATH"'
-      notify: Reload Zsh
-
-    - name: Add source command to .zshrc file
-      lineinfile:
-        path: ~/.zshrc
-        regexp: '^source \.zshrc$'  # Prevent duplicates if already present
-        line: 'source ~/.zshrc'
-      notify: Reload Zsh
-
-#    handlers:
-    - name: Reload Zsh
-      command: source ~/.zshrc
-      become_user: $USER # Ensure it runs as the current user
-
 # Installing Docker and Docker Compose
     - name: Add Docker GPG key
       apt_key:
@@ -344,6 +324,26 @@
       debug:
         msg: "Powerlevel10k requires manual configuration after installation. Please open a new Zsh session and type 'p10k configure' to customize your prompt."
 
+# Installing Zsh and Oh My Zsh
+    - name: Add aliases to .zshrc file
+      lineinfile:
+        path: ~/.zshrc
+        regexp: '^export PATH.*'  # Prevent duplicates if already present
+        line: 'export PATH="$HOME/.local/bin:$PATH"'
+      notify: Reload Zsh
+
+    - name: Add source command to .zshrc file
+      lineinfile:
+        path: ~/.zshrc
+        regexp: '^source \.zshrc$'  # Prevent duplicates if already present
+        line: 'source ~/.zshrc'
+      notify: Reload Zsh
+
+#    handlers:
+    - name: Reload Zsh
+      command: source ~/.zshrc
+      become_user: $USER # Ensure it runs as the current user
+      
 # To run - run the following command. ansible-playbook -i inventory install_apps.yml
 
 
