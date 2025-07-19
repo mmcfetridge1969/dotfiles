@@ -88,32 +88,6 @@
       until: result.rc == 0
       tags: flatpak # Tagging for potential skipping
 
-# Installing Docker and Docker Compose
-    - name: Add Docker GPG key
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
-
-    - name: Add Docker repository to APT sources
-      apt_repository:
-        repo: >
-          deb [arch={{ ansible_architecture }} signed-by=/usr/share/keyrings/docker-archive-keyring.gpg]
-          https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
-        state: present
-
-    - name: Install Docker packages
-      apt:
-        name: "{{ item }}"
-        state: present
-      loop:
-        - docker-ce
-        - docker-ce-cli
-        - containerd.io
-
-    - name: Debug Architecture
-      debug:
-        msg: "Architecture: {{ ansible_architecture }}"
-
 # Install Starship Prompt
     - name: Get Starship install script
       get_url:
@@ -343,7 +317,7 @@
     - name: Reload Zsh
       command: source ~/.zshrc
       become_user: $USER # Ensure it runs as the current user
-      
+
 # To run - run the following command. ansible-playbook -i inventory install_apps.yml
 
 
