@@ -144,7 +144,5 @@ echo "Please install the following apps manually"
 echo "Install Terraform autocomplete for Zsh"
 echo "Add flyctl completion to .zshrc"
 
-pause
-
 echo "run ansible install file" 
 ./.local/share/chezmoi/run_once_install_ansible.sh
