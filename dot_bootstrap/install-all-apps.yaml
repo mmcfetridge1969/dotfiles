@@ -144,15 +144,6 @@
         name: zsh
         state: present
 
-    - name: Install Terraform autocomplete for Zsh
-      ansible.builtin.shell: "terraform -install-autocomplete"
-      args:
-        executable: /bin/zsh
-        #  Use a dummy /home/miker/.zshrc file to prevent unexpected prompts or modifications
-        #  from the terraform -install-autocomplete command during automation.
-        #  It's crucial to explicitly manage /home/miker/.zshrc content within Ansible tasks.
-        stdin: 'source /home/miker/.zshrc'
-
 # Install flyctl
     - name: Ensure zsh is installed
       ansible.builtin.apt:
@@ -169,16 +160,6 @@
       ansible.builtin.shell: /tmp/install.sh
       args:
         creates: /usr/local/bin/flyctl  # Prevents rerunning if flyctl is already installed
-
-    - name: Add flyctl completion to .zshrc
-      ansible.builtin.lineinfile:
-        path: "/home/miker/.zshrc"
-        insertafter: EOF
-        line: |
-          # Flyctl completions
-          autoload -U compinit; compinit
-          flyctl completion zsh > "${fpath[1]}/_flyctl"
-          compdef _flyctl fly  # Alias flyctl to fly for completions
 
 
 # Install PowerLine10k and Oh-My-Zsh
@@ -230,32 +211,7 @@
       shell: "exec zsh"
       ignore_errors: true # This command might not always return a success code
 
-    - name: Run Powerlevel10k configuration wizard (manual step)
-      debug:
-        msg: "Powerlevel10k requires manual configuration after installation. Please open a new Zsh session and type 'p10k configure' to customize your prompt."
-
-# Installing Zsh and Oh My Zsh
-    - name: Add aliases to .zshrc file
-      lineinfile:
-        path: /home/miker/.zshrc
-        regexp: '^export PATH.*'  # Prevent duplicates if already present
-        line: 'export PATH="$HOME/.local/bin:$PATH"'
-      notify: Reload Zsh
-
-    - name: Add source command to .zshrc file
-      lineinfile:
-        path: /home/miker/.zshrc
-        regexp: '^source \.zshrc$'  # Prevent duplicates if already present
-        line: 'source /home/miker/.zshrc'
-      notify: Reload Zsh
-
-    - name: Reload Zsh
-      command: source /home/miker/.zshrc
-      become_user: $USER # Ensure it runs as the current user
-
 # To run - run the following command. ansible-playbook -i inventory install_apps.yml
-
-
 
 
 

@@ -23,19 +23,19 @@ sudo apt update
 sudo apt install eddie-ui -y
 
 
-echo "###############################################"
-echo "###############################################"
-echo "Installing EZA..."
-echo "###############################################"
-echo "###############################################"
-sudo apt update
-sudo apt install -y gpg
-sudo mkdir -p /etc/apt/keyrings
-wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
-echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
-sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
-sudo apt update
-sudo apt install -y eza
+#echo "###############################################"
+#echo "###############################################"
+#echo "Installing EZA..."
+#echo "###############################################"
+#echo "###############################################"
+#sudo apt update
+#sudo apt install -y gpg
+#sudo mkdir -p /etc/apt/keyrings
+#wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
+#echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
+#sudo chmod 644 /etc/apt/keyrings/gierens.gpg /etc/apt/sources.list.d/gierens.list
+#sudo apt update
+#sudo apt install -y eza
 
 
 echo "###############################################"
@@ -54,48 +54,25 @@ if [ -d "$USER_HOME/.ssh" ]; then
     fi
 fi
 
-
-echo "###############################################"
-echo "###############################################"
-echo "Installing VSCodium..."
-echo "###############################################"
-echo "###############################################"
-wget -qO - https://gitlab.com/paulcarroty/vscodium-deb-rpm-repo/raw/master/pub.gpg \
-    | gpg --dearmor \
-    | sudo dd of=/usr/share/keyrings/vscodium-archive-keyring.gpg
-echo 'deb [ signed-by=/usr/share/keyrings/vscodium-archive-keyring.gpg ] https://download.vscodium.com/debs vscodium main' \
-    | sudo tee /etc/apt/sources.list.d/vscodium.list
-sudo apt update && sudo apt install codium -y
-
-
-echo "###############################################"
-echo "###############################################"
-echo "Installing Flatpak and Applications..."
-echo "###############################################"
-echo "###############################################"
-sudo apt install flatpak -y
-flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
-
-
-echo "###############################################"
-echo "###############################################"
-echo "Installing Zoxide..."
-echo "###############################################"
-echo "###############################################"
-curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+#echo "###############################################"
+#echo "###############################################"
+#echo "Installing Zoxide..."
+#echo "###############################################"
+#echo "###############################################"
+#curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
 # Add zoxide init to shell configs if they exist
-if [ -f "$USER_HOME/.zshrc" ]; then
-    if ! grep -q "zoxide init zsh" "$USER_HOME/.zshrc"; then
-        echo 'eval "$(zoxide init zsh)"' >> "$USER_HOME/.zshrc"
-    fi
-fi
+#if [ -f "$USER_HOME/.zshrc" ]; then
+#    if ! grep -q "zoxide init zsh" "$USER_HOME/.zshrc"; then
+#        echo 'eval "$(zoxide init zsh)"' >> "$USER_HOME/.zshrc"
+#    fi
+#fi
 
-if [ -f "$USER_HOME/.bashrc" ]; then
-    if ! grep -q "zoxide init bash" "$USER_HOME/.bashrc"; then
-        echo 'eval "$(zoxide init bash)"' >> "$USER_HOME/.bashrc"
-    fi
-fi
+#if [ -f "$USER_HOME/.bashrc" ]; then
+#    if ! grep -q "zoxide init bash" "$USER_HOME/.bashrc"; then
+#        echo 'eval "$(zoxide init bash)"' >> "$USER_HOME/.bashrc"
+#    fi
+#fi
 
 
 echo "###############################################"
@@ -126,20 +103,6 @@ sudo apt update
 sudo apt upgrade -y
 sudo apt autoremove -y
 sudo apt autoclean -y
-
-echo "###############################################"
-echo "###############################################"
-echo "Installing Oh My ZSH"
-echo "###############################################"
-echo "###############################################"
-sudo apt install git zsh -y
-
-if [ ! -d "$HOME/.oh-my-zsh" ]; then
-	echo "Getting ohmyz.sh"
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc --skip-chsh
-else
-	echo ".oh-my-zsh already found, skipping."
-fi
 
 
 echo "###############################################"
@@ -175,3 +138,8 @@ echo "###############################################"
 echo "###############################################"
 echo "Note: You may need to log out and back in for Docker group membership to take effect."
 echo "Note: Restart your shell or source your shell config files to use new tools."
+echo ""
+echo "Please install the following apps manually"
+echo "Install Terraform autocomplete for Zsh"
+echo "Add flyctl completion to .zshrc"
+
