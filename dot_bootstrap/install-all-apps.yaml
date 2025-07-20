@@ -88,28 +88,6 @@
       until: result.rc == 0
       tags: flatpak # Tagging for potential skipping
 
-# Install Starship Prompt
-    - name: Get Starship install script
-      get_url:
-        url: https://starship.rs/install.sh
-        dest: /tmp/starship_install.sh
-        mode: '0755'
-      register: starship_install_script
-
-    - name: Install Starship
-      shell: /tmp/starship_install.sh --yes
-      args:
-        executable: /bin/sh
-      when: starship_install_script.changed
-
-    - name: Add Starship init to .zshrc
-      lineinfile:
-        path: /home/miker/.zshrc
-        line: 'eval "$(starship init zsh)"'
-        insertafter: EOF
-        create: yes
-      become: false
-
 # Install Terraform
     - name: Add HashiCorp GPG key
       ansible.builtin.shell: |
@@ -168,21 +146,6 @@
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
       args:
         creates: "/home/miker/.oh-my-zsh"
-
-    - name: Download Powerlevel10k theme
-      git:
-        repo: 'https://github.com/romkatv/powerlevel10k.git'
-        dest: "/home/miker/.oh-my-zsh/custom/themes/powerlevel10k"
-        depth: 1
-      args:
-        creates: "/home/miker/.oh-my-zsh/custom/themes/powerlevel10k"
-
-    - name: Set Powerlevel10k as the Oh My Zsh theme
-      lineinfile:
-        path: "/home/miker/.zshrc"
-        regexp: '^ZSH_THEME=".*"$'
-        line: 'ZSH_THEME="powerlevel10k/powerlevel10k"'
-        backup: yes
 
     - name: Add zsh-autosuggestions plugin
       git:
