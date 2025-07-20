@@ -110,15 +110,6 @@
         create: yes
       become: false
 
-    - name: Ensure Starship is in PATH
-      lineinfile:
-        path: ~/.zshrc
-        line: 'export PATH="$HOME/.local/bin:$PATH"'
-        insert_after: '^eval "\$\(starship init zsh\)"'
-        create: yes
-      become: false
-
-
 # Install Terraform
     - name: Add HashiCorp GPG key
       ansible.builtin.shell: |
