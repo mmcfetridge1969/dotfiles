@@ -61,7 +61,7 @@ echo "###############################################"
 echo "###############################################"
 curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 
- Add zoxide init to shell configs if they exist
+echo "Add zoxide init to shell configs if they exist"
 if [ -f "$USER_HOME/.zshrc" ]; then
     if ! grep -q "zoxide init zsh" "$USER_HOME/.zshrc"; then
         echo 'eval "$(zoxide init zsh)"' >> "$USER_HOME/.zshrc"
