@@ -185,7 +185,7 @@
 
     - name: Add flyctl completion to .zshrc
       ansible.builtin.lineinfile:
-        path: "~/.zshrc"
+        path: "/home/miker/.zshrc"
         insertafter: EOF
         line: |
           # Flyctl completions
