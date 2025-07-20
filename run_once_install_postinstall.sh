@@ -118,6 +118,7 @@ echo "###############################################"
 echo "Installing Powerlevel10k..."
 echo "###############################################"
 echo "###############################################"
+Sudo apt install git wget curl -y
 if [ ! -d "$USER_HOME/powerlevel10k" ]; then
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$USER_HOME/powerlevel10k"
 fi
