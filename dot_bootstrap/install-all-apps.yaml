@@ -152,16 +152,14 @@
         repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
         dest: "/home/miker/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
         depth: 1
-      args:
-        creates: "/home/miker/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+      creates: "/home/miker/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 
     - name: Add zsh-syntax-highlighting plugin
       git:
         repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
         dest: "/home/miker/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
         depth: 1
-      args:
-        creates: "/home/miker/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+      creates: "/home/miker/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 
     - name: Enable zsh-autosuggestions and zsh-syntax-highlighting plugins
       lineinfile:
