@@ -81,6 +81,8 @@
         - com.brave.Browser
         - com.visualstudio.code
         - org.qbittorrent.qBittorrent
+        - org.wezfurlong.wezterm
+        
       register: result  # Register the result of the command
       failed_when: result.rc != 0 # Fail if return code is not 0
       retries: 3  # Add retries in case of transient network issues
