@@ -153,19 +153,6 @@
         #  It's crucial to explicitly manage /home/miker/.zshrc content within Ansible tasks.
         stdin: 'source /home/miker/.zshrc'
 
-    - name: Verify Terraform installation
-      ansible.builtin.command: terraform -version
-      register: terraform_version_output
-      changed_when: false
-
-    - name: Display Terraform version
-      ansible.builtin.debug:
-        var: terraform_version_output.stdout
-
-    - name: Confirm Zsh completion setup (manual verification suggested)
-      ansible.builtin.debug:
-        msg: "Please log in to your Zsh shell and try typing 'terraform ' followed by TAB to test autocompletion."
-
 # Install flyctl
     - name: Ensure zsh is installed
       ansible.builtin.apt:
@@ -208,28 +195,6 @@
         depth: 1
       args:
         creates: "/home/miker/.oh-my-zsh/custom/themes/powerlevel10k"
-
-    - name: Install Powerline fonts (MesloLGS NF)
-      block:
-        - name: Create .fonts directory if it doesn't exist
-          file:
-            path: "/home/miker/.fonts"
-            state: directory
-
-        - name: Download MesloLGS NF fonts
-          get_url:
-            url: "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20{{ item }}.ttf"
-            dest: "/home/miker/.fonts/MesloLGS%20NF%20{{ item }}.ttf"
-          loop:
-            - Regular
-            - Bold
-            - Italic
-            - Bold%20Italic
-
-        - name: Update font cache
-          command: fc-cache -f -v
-          args:
-            warn: false # Suppress warning about potential issues
 
     - name: Set Powerlevel10k as the Oh My Zsh theme
       lineinfile:
@@ -284,7 +249,6 @@
         line: 'source /home/miker/.zshrc'
       notify: Reload Zsh
 
-#    handlers:
     - name: Reload Zsh
       command: source /home/miker/.zshrc
       become_user: $USER # Ensure it runs as the current user
