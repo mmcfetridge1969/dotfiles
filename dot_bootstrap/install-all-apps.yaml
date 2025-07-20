@@ -166,10 +166,6 @@
         line: 'plugins=(git zsh-autosuggestions zsh-syntax-highlighting)' # You can customize the plugins list
         backup: yes
 
-    - name: Restart Zsh session (optional, for immediate effect)
-      shell: "exec zsh"
-      ignore_errors: true # This command might not always return a success code
-
 #    - name: Run a script on a remote node
 #      ansible.builtin.script: ~/post_install.sh
 
