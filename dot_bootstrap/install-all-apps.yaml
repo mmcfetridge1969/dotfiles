@@ -104,7 +104,7 @@
 
     - name: Add Starship init to .zshrc
       lineinfile:
-        path: ~/.zshrc
+        path: /home/miker/.zshrc
         line: 'eval "$(starship init zsh)"'
         insertafter: EOF
         create: yes
@@ -148,10 +148,10 @@
       ansible.builtin.shell: "terraform -install-autocomplete"
       args:
         executable: /bin/zsh
-        #  Use a dummy ~/.zshrc file to prevent unexpected prompts or modifications
+        #  Use a dummy /home/miker/.zshrc file to prevent unexpected prompts or modifications
         #  from the terraform -install-autocomplete command during automation.
-        #  It's crucial to explicitly manage ~/.zshrc content within Ansible tasks.
-        stdin: 'source ~/.zshrc'
+        #  It's crucial to explicitly manage /home/miker/.zshrc content within Ansible tasks.
+        stdin: 'source /home/miker/.zshrc'
 
     - name: Verify Terraform installation
       ansible.builtin.command: terraform -version
@@ -199,27 +199,27 @@
     - name: Install Oh My Zsh
       shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
       args:
-        creates: "~/.oh-my-zsh"
+        creates: "/home/miker/.oh-my-zsh"
 
     - name: Download Powerlevel10k theme
       git:
         repo: 'https://github.com/romkatv/powerlevel10k.git'
-        dest: "~/.oh-my-zsh/custom/themes/powerlevel10k"
+        dest: "/home/miker/.oh-my-zsh/custom/themes/powerlevel10k"
         depth: 1
       args:
-        creates: "~/.oh-my-zsh/custom/themes/powerlevel10k"
+        creates: "/home/miker/.oh-my-zsh/custom/themes/powerlevel10k"
 
     - name: Install Powerline fonts (MesloLGS NF)
       block:
         - name: Create .fonts directory if it doesn't exist
           file:
-            path: "~/.fonts"
+            path: "/home/miker/.fonts"
             state: directory
 
         - name: Download MesloLGS NF fonts
           get_url:
             url: "https://github.com/romkatv/powerlevel10k-media/raw/master/MesloLGS%20NF%20{{ item }}.ttf"
-            dest: "~/.fonts/MesloLGS%20NF%20{{ item }}.ttf"
+            dest: "/home/miker/.fonts/MesloLGS%20NF%20{{ item }}.ttf"
           loop:
             - Regular
             - Bold
@@ -233,7 +233,7 @@
 
     - name: Set Powerlevel10k as the Oh My Zsh theme
       lineinfile:
-        path: "~/.zshrc"
+        path: "/home/miker/.zshrc"
         regexp: '^ZSH_THEME=".*"$'
         line: 'ZSH_THEME="powerlevel10k/powerlevel10k"'
         backup: yes
@@ -241,22 +241,22 @@
     - name: Add zsh-autosuggestions plugin
       git:
         repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
-        dest: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        dest: "/home/miker/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
         depth: 1
       args:
-        creates: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+        creates: "/home/miker/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
 
     - name: Add zsh-syntax-highlighting plugin
       git:
         repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
-        dest: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        dest: "/home/miker/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
         depth: 1
       args:
-        creates: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+        creates: "/home/miker/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
 
     - name: Enable zsh-autosuggestions and zsh-syntax-highlighting plugins
       lineinfile:
-        path: "~/.zshrc"
+        path: "/home/miker/.zshrc"
         regexp: '^plugins=\((.*)\)$'
         line: 'plugins=(git zsh-autosuggestions zsh-syntax-highlighting)' # You can customize the plugins list
         backup: yes
@@ -272,21 +272,21 @@
 # Installing Zsh and Oh My Zsh
     - name: Add aliases to .zshrc file
       lineinfile:
-        path: ~/.zshrc
+        path: /home/miker/.zshrc
         regexp: '^export PATH.*'  # Prevent duplicates if already present
         line: 'export PATH="$HOME/.local/bin:$PATH"'
       notify: Reload Zsh
 
     - name: Add source command to .zshrc file
       lineinfile:
-        path: ~/.zshrc
+        path: /home/miker/.zshrc
         regexp: '^source \.zshrc$'  # Prevent duplicates if already present
-        line: 'source ~/.zshrc'
+        line: 'source /home/miker/.zshrc'
       notify: Reload Zsh
 
 #    handlers:
     - name: Reload Zsh
-      command: source ~/.zshrc
+      command: source /home/miker/.zshrc
       become_user: $USER # Ensure it runs as the current user
 
 # To run - run the following command. ansible-playbook -i inventory install_apps.yml
