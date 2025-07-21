@@ -16,6 +16,7 @@
         - curl
         - wget
         - git
+        - bat
         - vim
         - zsh
         - build-essential

@@ -6,6 +6,8 @@ alias la='eza -ahF --color=auto --icons --sort=size --group-directories-first'
 alias lst='eza -lahT --color=auto --icons --sort=size --group-directories-first'
 alias lt='eza -aT --icons --group-directories-first --color=auto --sort=size'
 
+# FZF 
+alias fzf='fzf --preview="bat --color=always {}"'
 
 # Clear the screen
 alias c='clear'
