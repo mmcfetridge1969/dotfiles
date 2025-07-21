@@ -1,0 +1,89 @@
+#EZA
+alias ls='eza --all --long --group --group-directories-first --icons --header --time-style long-iso'
+alias l='eza -lahF --color=auto --icons --sort=size --group-directories-first'
+alias lss='eza -hF --color=auto --icons --sort=size --group-directories-first'
+alias la='eza -ahF --color=auto --icons --sort=size --group-directories-first'
+alias lst='eza -lahT --color=auto --icons --sort=size --group-directories-first'
+alias lt='eza -aT --icons --group-directories-first --color=auto --sort=size'
+
+
+# Clear the screen
+alias c='clear'
+
+## a quick way to get out of current directory ##
+alias ..='cd ..'
+alias ...='cd ../../../'
+alias ....='cd ../../../../'
+alias .....='cd ../../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
+
+## Colorize the grep command output for ease of use (good for log files)##
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+
+#Grabs the disk usage in the current directory
+alias used='du -sch .[!.]* * 2>/dev/null | sort -h'
+
+#Gets the total disk usage on your machine
+alias totalusage='df -hl --total | grep total'
+
+#Shows the individual partition usages without the temporary memory values
+alias partusage='df -hlT --exclude-type=tmpfs --exclude-type=devtmpfs'
+
+#Gives you what is using the most space. Both directories and files. Varies on current directory
+alias most='du -hsx * | sort -rh | head -10'
+
+# View only mounted Drives
+alias mnt="mount | awk -F' ' '{ printf \"%s\t%s\n\",\$1,\$3; }' | column -t | egrep ^/dev/ | sort"
+
+# handy short cuts #
+alias h='history'
+alias j='jobs -l'
+alias path='echo -e ${PATH//:/\\n}'
+
+# Set nano as default
+alias n=nano
+alias sn='sudo nano'
+alias edit=nano
+
+# Show open ports - Use netstat command to quickly list all TCP/UDP port on the server:
+alias ports='netstat -tulanp'
+
+# reboot / halt / poweroff
+alias reboot='sudo /sbin/reboot'
+alias poweroff='sudo /sbin/poweroff'
+alias halt='sudo /sbin/halt'
+alias shutdown='sudo /sbin/shutdown'
+
+## set some other defaults ##
+alias df='df -H'
+alias du='du -ch'
+
+# Edit the bashrc and re-source it when saved and closed.
+alias bashrc="nano ~/.bashrc && source ~/.bashrc"
+
+# ps
+alias psa="ps auxf"
+alias psgrep="ps aux | grep -v grep | grep -i -e VSZ -e"
+alias psmem='ps auxf | sort -nr -k 4'
+alias pscpu='ps auxf | sort -nr -k 3'
+
+# git
+alias addup='git add -u'
+alias addall='git add .'
+alias branch='git branch'
+alias checkout='git checkout'
+alias clone='git clone'
+alias commit='git commit -m'
+alias fetch='git fetch'
+alias pull='git pull origin'
+alias push='git push origin'
+alias stat='git status'  # 'status' is protected name so using 'stat' instead
+alias tag='git tag'
+alias newtag='git tag -a'
+
+# get error messages from journalctl
+alias jctl="journalctl -p 3 -xb"
+

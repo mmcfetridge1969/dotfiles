@@ -1,7 +1,7 @@
 # If you're using fastfetch with Powerlevel10k's instant prompt feature, it's a known source of incompatibility. fastfetch command in your .zshrc file is placed before the initialization of p10k-instant-prompt
 fastfetch
 
-# Check if Powerlevel10k is installed
+############################# CHECK IF INSTALLED, IF NOT THEN INSTALL ###########################
 if [ ! -f "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k/powerlevel10k.zsh-theme" ]; then
   echo "Powerlevel10k not found. Installing..."
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
@@ -25,21 +25,44 @@ else
   source $HOME/.oh-my-zsh/oh-my-zsh.sh
 fi
 
+########################## EXPORT PATHS #########################################################
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export ZSH="$HOME/.oh-my-zsh"
+# You may need to manually set your language environment
+export LANG=en_US.UTF-8
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/miker/.lmstudio/bin"
+
+######################### HISTORY CONTROLS #######################################################
+HISTCONTROL=ignoreboth
+HISTSIZE=100000
+HISTFILESIZE=100000
+HISTFILE=~/.zsh_history
+setopt INC_APPEND_HISTORY
+setopt hist_ignore_all_dups # remove older duplicate entries from history
+setopt hist_reduce_blanks # remove superfluous blanks from history items
+setopt inc_append_history # save history entries as soon as they are entered
+setopt share_history # share history between different instances of the shell
+setopt auto_cd # cd by typing directory name if it's not a command
+setopt correct_all # autocorrect commands
+setopt auto_list # automatically list choices on ambiguous completion
+setopt auto_menu # automatically use menu completion
+setopt always_to_end # move cursor to end if word had one match
+
+########################### POWERLEVEL & ZSH & OH-MY-ZSH SETTINGS ################################
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Path to your Oh My Zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
+# Set the zsh theme to powerlevel10k
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
-zstyle ':omz:update' mode auto      # update automatically without asking
-
+# update automatically without asking
+zstyle ':omz:update' mode auto      
 
 # Uncomment the following line to change how often to auto-update (in days).
 zstyle ':omz:update' frequency 13
@@ -48,66 +71,46 @@ zstyle ':omz:update' frequency 13
 ENABLE_CORRECTION="true"
 
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting you-should-use zsh-bat ansible aliases chezmoi colored-man-pages compleat fzf themes )
+plugins=(
+  git 
+  zsh-autosuggestions 
+  zsh-bat 
+  ansible 
+  colored-man-pages 
+  zsh-syntax-highlighting   
+)
+
+# Cache completions aggressively
+autoload -Uz compinit
+if [ "$(date +'%j')" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+    compinit
+else
+    compinit -C
+fi
 
 # Load oh my zsh  
 source $ZSH/oh-my-zsh.sh
-
-# You may need to manually set your language environment
-export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
- if [[ -n $SSH_CONNECTION ]]; then
-   export EDITOR='nano'
- else
-   export EDITOR='nano'
- fi
-
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# Load Aliases and Finctions, instead of adding them here directly.
-if [ -e $HOME/.bash_aliases ]; then
-   source $HOME/.bash_aliases
+################################ SETTING EDITOR ###################################################
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='nano'
+else
+  export EDITOR='nano'
 fi
 
-if [ -e $HOME/.bash_functions ]; then
-   source $HOME/.bash_functions
-fi
-
-
-eval "$(starship init zsh)"
-
+################################## GITHUB EXPORT ###################################################
 export GITHUB_USERNAME="mmcferidge1969"
+export GITHUB_EMAIL="mmcfetridg@aol.com"
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/home/miker/.lmstudio/bin"
-# End of LM Studio CLI section
-
-# Automatically preform ls when changing directory,
+################################## CD INTO DIR AND LIST ############################################
 cd() {
     builtin cd "$@" && ls -lA
 }
 
-# History Settings
-HISTCONTROL=ignoreboth
-shopt -s histappend
-HISTSIZE=20000
-HISTFILESIZE=10000
-shopt -s checkwinsize
-shopt -s cmdhist
-
-# Alias/Functions (from .bash_aliases and .bash_functions)
-if [ -e $HOME/.bash_aliases ]; then
-  source $HOME/.bash_aliases
-fi
-
-if [ -e $HOME/.bash_functions ]; then
-  source $HOME/.bash_functions
-fi
-
+################################# GIT GLOBAL SETTINGS ################################################
+git config --global user.name "mmcfetridge1969"
+git config --global user.email "mmcfetridg@aol.com"
 
 # Git Branch Function
 parse_git_branch() {
@@ -120,10 +123,18 @@ parse_git_branch() {
   fi
 }
 
-# GIT Global Settings
-git config --global user.name "mmcfetridge1969"
-git config --global user.email "mmcfetridg@aol.com"
+########################## SOURCE FILES ##########################################################
+source ~/.zsh_aliases
+source ~/.zsh_functions
 
-# Package Management 
-sudo apt update && sudo apt upgrade
-sudo apt install zsh zsh-autosuggestions zsh-syntax-highlighting
+################################# INITIALIZE APPS ###################################################
+eval "$(starship init zsh)"
+
+
+
+
+
+
+
+
+
