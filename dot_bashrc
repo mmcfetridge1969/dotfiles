@@ -6,6 +6,38 @@ case $- in
      *) return;;
 esac
 
+# Check if starship is installed
+if ! command -v starship &> /dev/null
+then
+    echo "Starship not found, installing..."
+    # Install starship (using the recommended installation script)
+    curl -sS https://starship.rs/install.sh | sh
+    # You can also specify an installation directory, e.g., if you don't have sudo access:
+    # curl -sS https://starship.rs/install.sh | sh -s -- -b ~/.local/bin
+    echo "Starship installed."
+fi
+
+# Initialize starship
+eval "$(starship init bash)"
+
+
+
+# Load starship prompt if starship is installed
+if [ -x /usr/bin/starship ]; then
+	__main() {
+		local major="${BASH_VERSINFO[0]}"
+		local minor="${BASH_VERSINFO[1]}"
+
+		if ((major > 4)) || { ((major == 4)) && ((minor >= 1)); }; then
+			source <("/usr/bin/starship" init bash --print-full-init)
+		else
+			source /dev/stdin <<<"$("/usr/bin/starship" init bash --print-full-init)"
+		fi
+	}
+	__main
+	unset -f __main
+fi
+
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
 
@@ -13,11 +45,14 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=4000
-HISTFILESIZE=8000
+HISTSIZE=20000
+HISTFILESIZE=10000
 
 # check the window size after each command and, if necessary,
 shopt -s checkwinsize
+
+# Combine multiline commands into one in history
+shopt -s cmdhist
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -78,4 +113,14 @@ fi
 
 # Load fastfetch
 fastfetch
+
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/miker/.lmstudio/bin"
+# End of LM Studio CLI section
+
+# Automatically preform ls when changing directory,
+cd() {
+    builtin cd "$@" && ls -lA
+}
 

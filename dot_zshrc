@@ -1,6 +1,29 @@
 # If you're using fastfetch with Powerlevel10k's instant prompt feature, it's a known source of incompatibility. fastfetch command in your .zshrc file is placed before the initialization of p10k-instant-prompt
 fastfetch
 
+# Check if Powerlevel10k is installed
+if [ ! -f "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k/powerlevel10k.zsh-theme" ]; then
+  echo "Powerlevel10k not found. Installing..."
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+  echo "Powerlevel10k installed."
+fi
+
+# Check if Starship is installed, if not, install it
+if ! command -v starship &> /dev/null; then
+  echo "Starship not found, installing..."
+  curl -sS https://starship.rs/install.sh | sh
+fi
+
+# Check if Oh My Zsh is installed
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  # Oh My Zsh is not installed, proceed with installation
+  echo "Oh My Zsh not found. Installing..."
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+else
+  # Oh My Zsh is installed, source it
+  source $HOME/.oh-my-zsh/oh-my-zsh.sh
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -132,3 +155,12 @@ eval "$(starship init zsh)"
 source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 export GITHUB_USERNAME="mmcferidge1969"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/home/miker/.lmstudio/bin"
+# End of LM Studio CLI section
+
+# Automatically preform ls when changing directory,
+cd() {
+    builtin cd "$@" && ls -lA
+}
