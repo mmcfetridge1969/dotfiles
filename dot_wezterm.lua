@@ -63,7 +63,7 @@ config.keys = {
 	{ key = 'f', mods = 'CTRL', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
 	{ key = 'd', mods = 'CTRL', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' } },
 	{ key = 't', mods = 'CTRL', action = act.CloseCurrentTab{ confirm = false } },
-	{ key = 'z', mods = 'CTRL', action = act.CloseCurrentPane{ confirm = false} },
+	{ key = 'q', mods = 'CTRL', action = act.CloseCurrentPane{ confirm = false} },
 	{ key = 'r', mods = 'LEADER', action = act.ActivateKeyTable { name = 'resize_pane', one_shot = false } },
 }
 
