@@ -76,7 +76,8 @@ plugins=(
   zsh-autosuggestions 
   zsh-bat 
   ansible 
-  colored-man-pages 
+  colored-man-pages
+  aliases
   zsh-syntax-highlighting   
 )
 
