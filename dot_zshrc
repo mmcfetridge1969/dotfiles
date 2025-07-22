@@ -129,7 +129,8 @@ source ~/.zsh_functions
 
 ################################# INITIALIZE APPS ###################################################
 eval "$(starship init zsh)"
-eval "$(fzf --zsh)"
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 
 
 
