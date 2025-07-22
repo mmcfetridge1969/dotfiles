@@ -6,6 +6,9 @@ case $- in
      *) return;;
 esac
 
+# Load fastfetch
+fastfetch
+
 # Check if starship is installed
 if ! command -v starship &> /dev/null
 then
@@ -16,11 +19,6 @@ then
     # curl -sS https://starship.rs/install.sh | sh -s -- -b ~/.local/bin
     echo "Starship installed."
 fi
-
-# Initialize starship
-eval "$(starship init bash)"
-
-
 
 # Load starship prompt if starship is installed
 if [ -x /usr/bin/starship ]; then
@@ -61,7 +59,6 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# Bash Prompt
 
 # get current branch in git repo
 function parse_git_branch() {
@@ -101,19 +98,12 @@ else
   export EDITOR='nano'
 fi
 
-### SETTING THE STARSHIP PROMPT ###
-# eval "$(starship init bash)"
-
 ### FZF ###
 # Enables the following keybindings:
 # CTRL-t = fzf select
 # CTRL-r = fzf history
 # ALT-c  = fzf cd
-# eval "$(fzf --bash)"
-
-# Load fastfetch
-fastfetch
-
+eval "$(fzf --bash)"
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/home/miker/.lmstudio/bin"
@@ -123,3 +113,7 @@ export PATH="$PATH:/home/miker/.lmstudio/bin"
 cd() {
     builtin cd "$@" && ls -lA
 }
+
+
+# Initialize starship
+eval "$(starship init bash)"
