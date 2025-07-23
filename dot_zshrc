@@ -72,13 +72,21 @@ ENABLE_CORRECTION="true"
 
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git 
-  zsh-autosuggestions 
-  zsh-bat 
-  ansible 
+  git
+  zsh-autosuggestions
+  zsh-bat
+  ansible
   colored-man-pages
+  terraform
+  systemadmin
+  aliases
   alias-finder
-  zsh-syntax-highlighting   
+  zoxide
+  ubuntu
+  ssh
+  kate
+  fzf
+  zsh-syntax-highlighting
 )
 
 # Cache completions aggressively
