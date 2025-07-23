@@ -77,7 +77,7 @@ plugins=(
   zsh-bat 
   ansible 
   colored-man-pages
-  aliases
+  alias-finder
   zsh-syntax-highlighting   
 )
 
