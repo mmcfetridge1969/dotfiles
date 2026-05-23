@@ -39,4 +39,3 @@ esac
 ansible-playbook -i ~/.bootstrap/inventory ~/.bootstrap/install-all-apps.yaml --ask-become-pass
 
 echo "Ansible installation complete."
-
