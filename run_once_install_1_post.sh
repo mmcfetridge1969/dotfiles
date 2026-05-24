@@ -54,7 +54,7 @@ if [ "$DISTRO_NAME" = "ubuntu" ] || [ "$DISTRO_NAME" = "debian" ]; then
     # Refresh and Bulk Install Native APT Apps
     sudo apt update
     sudo apt install -y \
-        eddie-ui eza fastfetch bat zsh build-essential autoconf make \
+        eza bat zsh build-essential autoconf make \
         libssl-dev htop blender vlc filezilla inotify-tools fzf \
         docker-compose ansible zsh-autosuggestions zsh-syntax-highlighting flatpak
 
