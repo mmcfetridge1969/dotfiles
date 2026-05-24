@@ -51,10 +51,13 @@ if [ "$DISTRO_NAME" = "ubuntu" ] || [ "$DISTRO_NAME" = "debian" ]; then
     # Fastfetch PPA
     sudo add-apt-repository -y ppa:zhangsongcui3371/fastfetch
     
+    # install Primary APT Apps
+    sudp apt install -y curl wget git gpg software-properties-common ca-certificates
+    
     # Refresh and Bulk Install Native APT Apps
     sudo apt update
     sudo apt install -y \
-        eddie-ui eza fastfetch bat zsh build-essential autoconf make \
+        eza bat zsh build-essential autoconf make \
         libssl-dev htop blender vlc filezilla inotify-tools fzf \
         docker-compose ansible zsh-autosuggestions zsh-syntax-highlighting flatpak
 
@@ -72,6 +75,9 @@ elif [ "$DISTRO_NAME" = "arch" ]; then
     
     sudo pacman -Syu --noconfirm
     
+    # install Primary APT Apps
+    sudp pacman -S git curl wget --noconfirm --needed
+
     # Native Arch Equivalents 
     sudo pacman -S --noconfirm --needed \
         curl wget git bat zsh base-devel openssl ca-certificates \
