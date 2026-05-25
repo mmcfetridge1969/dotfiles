@@ -1,9 +1,11 @@
 #!/bin/sh
-set -e # Exit immediately if a command exits with a non-zero status
+sudo -E PATH="/usr/bin:/usr/local/bin:$PATH"
+set -euo pipefail # Exit immediately if a command exits with a non-zero status
 
 # 1. OS DETECTION & VARIABLES
 CURRENT_USER=$(whoami)
 USER_HOME="/home/$CURRENT_USER"
+[[ $EUID -ne 0 ]] && echo "Run as non-root user and sudo..." && exit 1
 
 if [ -f /etc/os-release ]; then
     . /etc/os-release
@@ -36,7 +38,7 @@ if [ "$DISTRO_NAME" = "ubuntu" ] || [ "$DISTRO_NAME" = "debian" ]; then
     echo "-----------------------------------------------"
     
     # Prerequisite updates
-    sudo apt update && sudo apt install -y curl wget git gpg software-properties-common ca-certificates
+    sudo apt install -y curl wget git gpg software-properties-common ca-certificates
 
     # AirVPN Eddie repository
     curl -fsSL https://eddie.website/repository/keys/eddie_maintainer_gpg.key | sudo tee /usr/share/keyrings/eddie.website-keyring.asc > /dev/null
@@ -52,7 +54,7 @@ if [ "$DISTRO_NAME" = "ubuntu" ] || [ "$DISTRO_NAME" = "debian" ]; then
     sudo add-apt-repository -y ppa:zhangsongcui3371/fastfetch
     
     # install Primary APT Apps
-    sudp apt install -y curl wget git gpg software-properties-common ca-certificates
+    sudo apt install -y curl wget git gpg software-properties-common ca-certificates
     
     # Refresh and Bulk Install Native APT Apps
     sudo apt update
@@ -76,7 +78,7 @@ elif [ "$DISTRO_NAME" = "arch" ]; then
     sudo pacman -Syu --noconfirm
     
     # install Primary APT Apps
-    sudp pacman -S git curl wget --noconfirm --needed
+    sudo pacman -S git curl wget --noconfirm --needed
 
     # Native Arch Equivalents 
     sudo pacman -S --noconfirm --needed \
