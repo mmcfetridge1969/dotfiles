@@ -7,13 +7,13 @@ USER_HOME="/home/$CURRENT_USER"
 
 if [ -f /etc/os-release ]; then
     . /etc/os-release
-    DISTRO_NAME=$ID
+    ID_LIKE=$ID
 else
     echo "Cannot determine OS distribution. /etc/os-release missing."
     exit 1
 fi
 
-echo "Starting deployment script for user: $CURRENT_USER on $DISTRO_NAME"
+echo "Starting deployment script for user: $CURRENT_USER on $ID_LIKE"
 
 # 2. SHARED TASKS (Runs on both systems)
 echo "-----------------------------------------------"
@@ -30,7 +30,7 @@ if [ -d "$USER_HOME/.ssh" ]; then
 fi
 
 # 3. DISTRO SPECIFIC APPLICATIONS
-if [ "$DISTRO_NAME" = "ubuntu" ] || [ "$DISTRO_NAME" = "debian" ]; then
+if [ "$ID_LIKE" = "ubuntu" ] || [ "$ID_LIKE" = "debian" ]; then
     echo "-----------------------------------------------"
     echo "Running Ubuntu/Debian Setup Tasks"
     echo "-----------------------------------------------"
@@ -65,7 +65,7 @@ if [ "$DISTRO_NAME" = "ubuntu" ] || [ "$DISTRO_NAME" = "debian" ]; then
     # Cleanup
     sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y
 
-elif [ "$DISTRO_NAME" = "arch" ]; then
+elif [ "$ID_LIKE" = "arch" ]; then
     echo "-----------------------------------------------"
     echo "Running Arch Linux Setup Tasks"
     echo "-----------------------------------------------"
